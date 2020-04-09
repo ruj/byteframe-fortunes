@@ -10,22 +10,22 @@ class Byteframe {
 
   async fortune(file, amount = 1, fortune = '') {
     amount = [...Array(amount).keys()]
-    const fortunes = await this.load()
+    const fortunes = await this._load()
 
     amount.forEach((index) => {
-      fortune += fortunes[file].sort(() => Math.random() - .5)[index].trim()
+      fortune += fortunes[file].sort(() => Math.random() - .5)[index].trim() + '\n\n'
       fortune.replace(/ +/g, ' ').trim()
     })
 
     return fortune
   }
 
-  async big(length) {
+  async bigFortune(length) {
     const text = (await this.fortune('all')).replace(/\n/g, ' ').trim()
-    return text.length < length || text.length < 1 ? this.big(length) : text
+    return text.length < length || text.length < 1 ? this.bigFortune(length) : text
   }
 
-  async load(directory = this.directory) {
+  async _load(directory = this.directory) {
     const files = await this.readdir(directory)
     const fortunes = {}
 
